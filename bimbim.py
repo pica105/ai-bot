@@ -4,7 +4,7 @@ import uuid
 import json
 from datetime import datetime
 from typing import Optional
-from threading import Lock
+from threading import RLock
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -121,7 +121,7 @@ class SessionManager:
         self.filepath = filepath
         self.current_session_id: str = ""
         self.sessions: dict[str, BimBimSession] = {}
-        self._lock = Lock()
+        self._lock = RLock()
         self.load()
 
     def load(self):
