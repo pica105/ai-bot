@@ -12,6 +12,7 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.filters import Command, CommandObject
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
+from aiogram.exceptions import TelegramBadRequest
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from dotenv import load_dotenv
@@ -36,6 +37,15 @@ sm = SessionManager()
 router = Router()
 pending_rename: dict[int, str] = {}  # user_id → session_id
 pending_prompt: set[int] = set()  # user_id — ждёт новый текст промпта
+
+
+# ─── Helpers ─────────────────────────────────────────────
+async def safe_send_markdown(message: Message, text: str):
+    """Отправить с Markdown-форматированием. Если Telegram не может распарсить — отправить plain text."""
+    try:
+        await message.answer(text, parse_mode=ParseMode.MARKDOWN)
+    except TelegramBadRequest:
+        await message.answer(text, parse_mode=None)
 
 
 # ─── Admin guard ─────────────────────────────────────────
@@ -354,7 +364,7 @@ async def cmd_set_prompt(message: Message, command: CommandObject):
         preview = text[:100].replace("\n", " ")
         await message.answer(
             f"✅ Системный промпт обновлён (текущая сессия обновлена)!\n\n{preview}...",
-            parse_mode=ParseMode.HTML,
+            parse_mode=None,
         )
     else:
         # без аргументов — ждём текст следующим сообщением
@@ -428,7 +438,7 @@ async def handle_text(message: Message):
         preview = user_text[:100].replace("\n", " ")
         await message.answer(
             f"✅ Системный промпт обновлён (текущая сессия обновлена)!\n\n{preview}...",
-            parse_mode=ParseMode.HTML,
+            parse_mode=None,
         )
         return
 
@@ -466,10 +476,10 @@ async def handle_text(message: Message):
     if len(reply) > 3900:
         parts = [reply[i : i + 3900] for i in range(0, len(reply), 3900)]
         for part in parts:
-            await message.answer(part, parse_mode=ParseMode.HTML)
+            await safe_send_markdown(message, part)
         await message.answer(f"⚡ {tokens} tokens · {provider}")
     else:
-        await message.answer(reply, parse_mode=ParseMode.HTML)
+        await safe_send_markdown(message, reply)
         await message.answer(f"⚡ {tokens} tokens · {provider}")
 
 
