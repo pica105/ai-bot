@@ -354,7 +354,7 @@ async def cmd_set_prompt(message: Message, command: CommandObject):
         preview = text[:100].replace("\n", " ")
         await message.answer(
             f"✅ Системный промпт обновлён (текущая сессия обновлена)!\n\n{preview}...",
-            parse_mode=None,
+            parse_mode=ParseMode.HTML,
         )
     else:
         # без аргументов — ждём текст следующим сообщением
@@ -428,7 +428,7 @@ async def handle_text(message: Message):
         preview = user_text[:100].replace("\n", " ")
         await message.answer(
             f"✅ Системный промпт обновлён (текущая сессия обновлена)!\n\n{preview}...",
-            parse_mode=None,
+            parse_mode=ParseMode.HTML,
         )
         return
 
@@ -466,10 +466,10 @@ async def handle_text(message: Message):
     if len(reply) > 3900:
         parts = [reply[i : i + 3900] for i in range(0, len(reply), 3900)]
         for part in parts:
-            await message.answer(part, parse_mode=None)
+            await message.answer(part, parse_mode=ParseMode.HTML)
         await message.answer(f"⚡ {tokens} tokens · {provider}")
     else:
-        await message.answer(reply, parse_mode=None)
+        await message.answer(reply, parse_mode=ParseMode.HTML)
         await message.answer(f"⚡ {tokens} tokens · {provider}")
 
 
