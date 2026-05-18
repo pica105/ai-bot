@@ -1,6 +1,6 @@
 # BimBim 🤖
 
-Telegram-бот для общения с OpenRouter AI через несколько сессий.
+Telegram-бот для общения с AI через OpenRouter AI. Сохранение сессий. 
 
 ## Возможности
 
