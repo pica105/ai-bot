@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "bimbim"
+version = "1.0.0"
+description = "Telegram-бот для общения с OpenRouter AI через несколько сессий"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+    {name = "pica105"},
+]
+keywords = ["telegram", "bot", "openrouter", "ai", "chat"]
+
+dependencies = [
+    "httpx>=0.28.0",
+    "aiogram>=3.28.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/pica105/ai-bot"
+Repository = "https://github.com/pica105/ai-bot.git"
+
+[project.scripts]
+bimbim = "bimbim:cli_main"
+
+[tool.setuptools.packages.find]
+include = ["bimbim*"]
