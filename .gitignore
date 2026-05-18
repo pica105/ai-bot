@@ -5,10 +5,10 @@ __pycache__/
 .venv/
 venv/
 *.egg-info/
-*.env
 
 # Runtime data
 sessions.json
+.env
 
 # Old / unused files
 test.py
