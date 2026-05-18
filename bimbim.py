@@ -12,7 +12,8 @@ load_dotenv()
 SYSTEM_PROMPT_PATH = "system_prompt.md"
 
 system_prompt = open(SYSTEM_PROMPT_PATH, encoding="utf-8").read()
-logo_text = open("logo_text.md", encoding="utf-8").read()
+src_path = "src/"
+logo_text = open(f"{src_path}logo_text.md", encoding="utf-8").read()
 
 
 def get_system_prompt() -> str:
