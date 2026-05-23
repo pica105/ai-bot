@@ -63,7 +63,7 @@ class BimBimSession:
             "messages": self.messages,
             "session_id": self.session_id,
             "provider": {
-                "order": ["Azure"],
+                "order": ["deepinfra/fp4", "alibaba"],
                 "allow_fallbacks": True,
             },
         }
